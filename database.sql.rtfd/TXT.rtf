@@ -1,0 +1,158 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww28600\viewh18000\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 -- Database: KARDEX\
+\
+-- DROP DATABASE "KARDEX";\
+\
+CREATE DATABASE "KARDEX"\
+    WITH \
+    OWNER = postgres\
+    ENCODING = 'UTF8'\
+    LC_COLLATE = 'C'\
+    LC_CTYPE = 'C'\
+    TABLESPACE = pg_default\
+    CONNECTION LIMIT = -1;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+-- Table: public."CASA"\
+\
+-- DROP TABLE public."CASA";\
+\
+CREATE TABLE public."CASA"\
+(\
+    "IDE_CASA" numeric(1,0) NOT NULL,\
+    "NOM_CASA" character(30) COLLATE pg_catalog."default",\
+    CONSTRAINT "CASA_pkey" PRIMARY KEY ("IDE_CASA")\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
+TABLESPACE pg_default;\
+\
+ALTER TABLE public."CASA"\
+    OWNER to udem;\
+COMMENT ON TABLE public."CASA"\
+    IS 'TABLA DESCRIBIENDO A QUE CASA PERTENECE EL COMIC';\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardirnatural\partightenfactor0
+\cf0 \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+-- Table: public."CATEGORIA"\
+\
+-- DROP TABLE public."CATEGORIA";\
+\
+CREATE TABLE public."CATEGORIA"\
+(\
+    "IDE_CATEGORIA" numeric NOT NULL,\
+    "DES_CATEGORIA" character(15) COLLATE pg_catalog."default",\
+    CONSTRAINT "CATEGORIA_pkey" PRIMARY KEY ("IDE_CATEGORIA")\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
+TABLESPACE pg_default;\
+\
+ALTER TABLE public."CATEGORIA"\
+    OWNER to udem;\
+COMMENT ON TABLE public."CATEGORIA"\
+    IS 'TABLA DE CATEGORIAS DE PRODUCTOS';\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+-- Table: public."MOVIMIENTO"\
+\
+-- DROP TABLE public."MOVIMIENTO";\
+\
+CREATE TABLE public."MOVIMIENTO"\
+(\
+    "IDE_MOVIMIENTO" numeric NOT NULL,\
+    "IDE_TIPO_MOVIMIENTO" numeric,\
+    "FEC_MOVIMIENTO" date,\
+    "IDE_PRODUCTO" numeric,\
+    "VLR_UNITARIO" numeric,\
+    "CANTIDAD" numeric,\
+    "VLR_TOTAL" numeric,\
+    "IDE_CATEGORIA" numeric,\
+    CONSTRAINT "PK_IDE_MOVIMIENTO" PRIMARY KEY ("IDE_MOVIMIENTO"),\
+    CONSTRAINT "FK_IDE_CATEGORIA" FOREIGN KEY ("IDE_CATEGORIA")\
+        REFERENCES public."CATEGORIA" ("IDE_CATEGORIA") MATCH SIMPLE\
+        ON UPDATE NO ACTION\
+        ON DELETE NO ACTION,\
+    CONSTRAINT "FK_IDE_PRODUCTO" FOREIGN KEY ("IDE_PRODUCTO")\
+        REFERENCES public."PRODUCTO" ("IDE_PRODUCTO") MATCH SIMPLE\
+        ON UPDATE NO ACTION\
+        ON DELETE NO ACTION,\
+    CONSTRAINT "FK_IDE_TIPO_MOVIMIENTO" FOREIGN KEY ("IDE_TIPO_MOVIMIENTO")\
+        REFERENCES public."TIPO_MOVIMIENTO" ("IDE_TIPO_MOVIMIENTO") MATCH SIMPLE\
+        ON UPDATE NO ACTION\
+        ON DELETE NO ACTION\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
+TABLESPACE pg_default;\
+\
+ALTER TABLE public."MOVIMIENTO"\
+    OWNER to udem;\
+COMMENT ON TABLE public."MOVIMIENTO"\
+    IS 'TABLA DE MOVIMIENTOS';\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+-- Table: public."PRODUCTO"\
+\
+-- DROP TABLE public."PRODUCTO";\
+\
+CREATE TABLE public."PRODUCTO"\
+(\
+    "IDE_PRODUCTO" numeric NOT NULL,\
+    "NOM_PRODUCTO" character(30) COLLATE pg_catalog."default",\
+    "IDE_CASA" numeric(1,0),\
+    "IDE_CATEGORIA" numeric,\
+    "DESCRIPCION" character(30) COLLATE pg_catalog."default",\
+    "CANTIDAD" numeric,\
+    CONSTRAINT "PK_IDE_PRODUCTO" PRIMARY KEY ("IDE_PRODUCTO"),\
+    CONSTRAINT "FK_IDE_CASA" FOREIGN KEY ("IDE_CASA")\
+        REFERENCES public."CASA" ("IDE_CASA") MATCH SIMPLE\
+        ON UPDATE NO ACTION\
+        ON DELETE NO ACTION,\
+    CONSTRAINT "FK_IDE_CATEGORIA" FOREIGN KEY ("IDE_CATEGORIA")\
+        REFERENCES public."CATEGORIA" ("IDE_CATEGORIA") MATCH SIMPLE\
+        ON UPDATE NO ACTION\
+        ON DELETE NO ACTION\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
+TABLESPACE pg_default;\
+\
+ALTER TABLE public."PRODUCTO"\
+    OWNER to udem;\
+COMMENT ON TABLE public."PRODUCTO"\
+    IS 'TABLA DE PRODUCTOS';\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+-- Table: public."TIPO_MOVIMIENTO"\
+\
+-- DROP TABLE public."TIPO_MOVIMIENTO";\
+\
+CREATE TABLE public."TIPO_MOVIMIENTO"\
+(\
+    "IDE_TIPO_MOVIMIENTO" numeric NOT NULL,\
+    "DES_TIPO_MOVIMIENTO" character(30) COLLATE pg_catalog."default",\
+    CONSTRAINT "TIPO_MOVIMIENTO_pkey" PRIMARY KEY ("IDE_TIPO_MOVIMIENTO")\
+)\
+WITH (\
+    OIDS = FALSE\
+)\
+TABLESPACE pg_default;\
+\
+ALTER TABLE public."TIPO_MOVIMIENTO"\
+    OWNER to udem;\
+COMMENT ON TABLE public."TIPO_MOVIMIENTO"\
+    IS 'TABLA DE TIPOS DE MOVIMIENTO';\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97}
