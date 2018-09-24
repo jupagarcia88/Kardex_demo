@@ -1,0 +1,24 @@
+<h1 class="animated fadeIn fast">COMPRAR PRODUCTOS</h1>
+
+<form>
+
+  <div class="form-group">
+    <label for="exampleFormControlSelect1">Productos</label>
+    <select [(ngModel)]="productName" [ngModelOptions]="{standalone: true}" class="form-control" id="FormControlSelectProduct">
+      <option value="0">Selecciona una opción</option>
+      <option *ngFor="let product of products">{{product.nombre}}</option>
+    </select>
+  </div>
+
+
+  <div class="form-group">
+    <label  for="formGroupProductInput">Producto</label>
+    <input type="text" value = {{productName}} class="form-control" id="formGroupProductInput" placeholder="Producto" disabled>
+  </div>
+  <div class="form-group">
+    <label for="formGroupCantidadInput">Cantidad</label>
+    <input type="text" class="form-control" id="formGroupCantidadInput" placeholder="Cantidad">
+  </div>
+
+  <button type="button" class="btn btn-dark">Comprar</button>
+</form>
